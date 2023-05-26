@@ -9,7 +9,8 @@ const Nav = () => {
     const { data: session } = useSession();
 
     const [providers, setProviders] = useState(null);
-    const [toggleMenu, setToggleMenu] = useState(false)
+    const [toggleMenu, setToggleMenu] = useState(false);
+    const [toggleLogMenu, setToggleLogMenu] = useState(true)
 
     useEffect(() => {
         const setUpProviders = async () => {
@@ -47,16 +48,21 @@ const Nav = () => {
                 </div>
             ): (
                 <>
-                    {providers && 
-                    Object.values(providers).map((provider) => (
+                {!toggleLogMenu && <button onClick={() => setToggleLogMenu((prev) => !prev)}>Login</button>}
+                {toggleLogMenu && 
+                    <div className='flex relarive' onClick={() => setToggleLogMenu((prev) => !prev)}>
+                        {providers && Object.values(providers).map((provider) => (
                         <button type='button'
                         key={provider.name}
                         onClick={() => signIn(provider.id)}
-                        className='black_btn'
+                        className='black_btn m-1'
                         >
-                            Sign In    
-                        </button>  
+                            {provider.name.toUpperCase()}   
+                        </button>                       
                     ))}
+                    </div>
+                }
+                    
                 </>
             )}
         </div>
