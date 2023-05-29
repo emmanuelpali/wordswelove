@@ -10,7 +10,7 @@ const Nav = () => {
 
     const [providers, setProviders] = useState(null);
     const [toggleMenu, setToggleMenu] = useState(false);
-    const [toggleLogMenu, setToggleLogMenu] = useState(true)
+    const [toggleLogMenu, setToggleLogMenu] = useState(false)
 
     useEffect(() => {
         const setUpProviders = async () => {
@@ -50,7 +50,7 @@ const Nav = () => {
                 <>
                 {!toggleLogMenu && <button onClick={() => setToggleLogMenu((prev) => !prev)}>Login</button>}
                 {toggleLogMenu && 
-                    <div className='flex relarive' onClick={() => setToggleLogMenu((prev) => !prev)}>
+                    <div className='flex relative' onClick={() => setToggleLogMenu((prev) => !prev)}>
                         {providers && Object.values(providers).map((provider) => (
                         <button type='button'
                         key={provider.name}
@@ -97,7 +97,7 @@ const Nav = () => {
                             type='button'
                             onClick={() => {
                                 setToggleMenu(false);
-                                signIn();
+                                signOut();
                             }}
                             className='mt-5 w-full black_btn'>
                             Sign Out
@@ -108,16 +108,20 @@ const Nav = () => {
                 
             ): (
                 <>
-                    {providers && 
-                    Object.values(providers).map((provider) => (
+                   {!toggleLogMenu && <button onClick={() => setToggleLogMenu((prev) => !prev)}>Login</button>}
+                    {toggleLogMenu && 
+                    <div className='flex relative' onClick={() => setToggleLogMenu((prev) => !prev)}>
+                        {providers && Object.values(providers).map((provider) => (
                         <button type='button'
                         key={provider.name}
                         onClick={() => signIn(provider.id)}
-                        className='black_btn'
+                        className='black_btn m-1'
                         >
-                            Sign In    
-                        </button>  
+                          Sign In with  {provider.name.toUpperCase()}   
+                        </button>                       
                     ))}
+                    </div>
+                }
                 </>
             )}
         </div>
