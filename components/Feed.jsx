@@ -16,21 +16,27 @@ const QuoteList = ({ data, handleTagClick}) => {
 }
 
 const Feed = () => {
-  const [searchWord, setSearchWord] = useState('')
   const [posts, setPosts] = useState([])
+  const [searchWord, setSearchWord] = useState('')
   const handleSearch = (e) => {
       setSearchWord(prev => prev = e.target.value)
+      
   }
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch('/api/quote');
-      const data = await response.json();
-      setPosts(data)
+      if(searchWord !== ''){
+        setPosts((prev) => prev.filter((movie) => movie.tag.toLowerCase().includes(searchWord.toLowerCase()))); 
+        }else {
+          const response = await fetch('/api/quote');
+          const data = await response.json();
+          setPosts(data)
+      }
     }
-    fetchPosts()
-  }, [])
-
+  fetchPosts();
+    
+   
+  }, [searchWord])
   return (
     <section className="feed">
         <form className="relative w-full flex-center">
